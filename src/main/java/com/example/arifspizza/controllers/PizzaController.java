@@ -2,9 +2,7 @@ package com.example.arifspizza.controllers;
 
 import com.example.arifspizza.entities.Pizza;
 import com.example.arifspizza.repositories.PizzaRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,5 +29,10 @@ public class PizzaController {
         }else{
             throw new RuntimeException("There is no pizza found with this id: "+id+"! Try again with right Id.");
         }
+    }
+
+    @PostMapping("/pizzas")
+    public Pizza addNewPizza(@RequestBody Pizza pizzaNew){
+        return pizzaRepository.save(pizzaNew);
     }
 }
