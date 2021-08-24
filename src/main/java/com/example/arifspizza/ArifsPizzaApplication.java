@@ -18,7 +18,7 @@ public class ArifsPizzaApplication {
     public CommandLineRunner init(PizzaRepository pizzaRepository) {
         return args -> {
             if (pizzaRepository.count() == 0) {
-                pizzaRepository.save(new Pizza(0L, "Supreme", 179, "Tomatsås, Mozzarella, Pepperonikorv, Beef, Fäska champinjoner, Paprika och Rödlök"));
+                pizzaRepository.save(new Pizza("Supreme", 179, "Tomatsås, Mozzarella, Pepperonikorv, Beef, Fäska champinjoner, Paprika och Rödlök"));
             }
         };
     }

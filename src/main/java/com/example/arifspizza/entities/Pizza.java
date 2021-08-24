@@ -18,19 +18,18 @@ public class Pizza {
     public Pizza() {
     }
 
-    public Pizza(Long id, String name, int price, String ingredients) {
-        this.id = id;
+    public Pizza(String name, int price, String ingredients) {
         this.name = name;
         this.price = price;
         this.ingredients = ingredients;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
