@@ -23,7 +23,7 @@ public class PizzaController {
     }
 
     @GetMapping("/pizzas/{id}")
-    public Pizza get(@PathVariable Long id) {
+    public Pizza getPizzaById(@PathVariable Long id) {
         Optional<Pizza> pizza = pizzaRepository.findById(id);
         if (pizza.isPresent()) {
             return pizza.get();
@@ -33,11 +33,12 @@ public class PizzaController {
     }
 
     @GetMapping("/pizzas/{ingredients}")
-    public void findAllByThisIngredient(@PathVariable String ingredients, @RequestBody Pizza body){
-        pizzaRepository.findAll();
-        String getIn = body.getIngredients();
-        System.out.println(getIn);
-        //return find.contains(getIn);
+    public boolean findAllByThisIngredient(@PathVariable String ingredients, @RequestBody Pizza body){
+        //boolean ing = pizzaRepository.findAll().contains(ingredients);
+        return body.getIngredients().contains(ingredients);
+        //String getIn = body.getIngredients();
+        //System.out.println(getIn);
+       // return find.contains(getIn);
     }
 
     @PostMapping("/pizzas")
