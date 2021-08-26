@@ -32,13 +32,10 @@ public class PizzaController {
         }
     }
 
-    @GetMapping("/pizzas/{ingredients}")
-    public boolean findAllByThisIngredient(@PathVariable String ingredients, @RequestBody Pizza body){
-        //boolean ing = pizzaRepository.findAll().contains(ingredients);
-        return body.getIngredients().contains(ingredients);
-        //String getIn = body.getIngredients();
-        //System.out.println(getIn);
-       // return find.contains(getIn);
+    @GetMapping("/pizzas/filter/{ingredients}")
+    public List<Pizza> findAllByThisIngredient(@PathVariable String ingredients, @RequestBody Pizza body) {
+        return pizzaRepository.findPizzasByIngredientsContains(ingredients);
+
     }
 
     @PostMapping("/pizzas")
@@ -47,46 +44,41 @@ public class PizzaController {
     }
 
     @PutMapping("/pizzas")
-    public Pizza updatePizza(@RequestBody Pizza pizza){
+    public Pizza updatePizza(@RequestBody Pizza pizza) {
         return pizzaRepository.save(pizza);
     }
 
-    @PatchMapping(("/pizzas/{id}"))
-    public Pizza updatePizzaId(@PathVariable Long id,@RequestBody Pizza body){
-
-        Optional<Pizza> findPizzaToUpdate = pizzaRepository.findById(id);
-
-        if(findPizzaToUpdate.isPresent()){
-            Pizza pizza = findPizzaToUpdate.get();
-            pizza.setId(body.getId());
-            return pizzaRepository.save(pizza);
-
-        }else {
-            throw new RuntimeException("There is no pizza with this id: "+id+"! Try again with right id");
-        }
-    }
-
-
     @PatchMapping(("/pizzas/{id}/{name}"))
-    public Pizza updatePizzaName(@PathVariable Long id, @PathVariable String name,@RequestBody Pizza body){
+    public Pizza updatePizzaName(@PathVariable Long id, @PathVariable String name, @RequestBody Pizza body) {
         Optional<Pizza> findPizzaToUpdate = pizzaRepository.findById(id);
-        if (findPizzaToUpdate.isPresent()){
+        if (findPizzaToUpdate.isPresent()) {
             Pizza pizza = findPizzaToUpdate.get();
             pizza.setName(body.getName());
             return pizzaRepository.save(pizza);
-        }else {
-            throw new RuntimeException("There is no pizza with this id: "+id);
+        } else {
+            throw new RuntimeException("There is no pizza with this id: " + id);
         }
     }
 
+//    @DeleteMapping("/pizzas/{id}")
+//    public void removePizza(@PathVariable Long id) {
+//        Optional<Pizza> pizza = pizzaRepository.findById(id);
+//        if (pizza.isPresent()) {
+//            pizzaRepository.deleteById(id);
+//            System.out.println("Pizza with this id " + id + " has been successfully removed from list");
+//        } else {
+//            throw new RuntimeException("There is no pizza with this id: " + id);
+//        }
+//    }
+
     @DeleteMapping("/pizzas/{id}")
-    public void removePizza(@PathVariable Long id) {
+    public String RemovePizza(@PathVariable Long id){
         Optional<Pizza> pizza = pizzaRepository.findById(id);
-        if (pizza.isPresent()) {
-            pizzaRepository.deleteById(id);
-            System.out.println("Pizza with this id " + id + " has been successfully removed from list");
-        } else {
-            throw new RuntimeException("There is no pizza with this id: " + id);
+        if(pizza.isPresent()){
+            pizzaRepository.delete(pizza.get());
+            return "Pizza with id "+id+" is deleted!";
+        } else{
+            throw new RuntimeException("Pizza not found for the id "+id);
         }
     }
 }

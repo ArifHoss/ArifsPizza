@@ -18,14 +18,15 @@ public class Pizza {
     public Pizza() {
     }
 
-    public Pizza(String name, int price, String ingredients) {
+    public Pizza(Long id) {
+        this.id = id;
+    }
+
+    public Pizza(Long id, String name, int price, String ingredients) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.ingredients = ingredients;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getId() {
