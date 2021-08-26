@@ -2,10 +2,10 @@ package com.example.arifspizza.controllers;
 
 import com.example.arifspizza.entities.Pizza;
 import com.example.arifspizza.repositories.PizzaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -28,7 +28,7 @@ public class PizzaController {
         if (pizza.isPresent()) {
             return pizza.get();
         } else {
-            throw new RuntimeException("There is no pizza found with this id: " + id + "! Try again with right Id.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"There is no pizza found with this id: " + id + "! Try again with right Id.");
         }
     }
 
@@ -56,20 +56,10 @@ public class PizzaController {
             pizza.setName(body.getName());
             return pizzaRepository.save(pizza);
         } else {
-            throw new RuntimeException("There is no pizza with this id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"There is no pizza found with this id: " + id + "! Try again with right Id.");
         }
     }
 
-//    @DeleteMapping("/pizzas/{id}")
-//    public void removePizza(@PathVariable Long id) {
-//        Optional<Pizza> pizza = pizzaRepository.findById(id);
-//        if (pizza.isPresent()) {
-//            pizzaRepository.deleteById(id);
-//            System.out.println("Pizza with this id " + id + " has been successfully removed from list");
-//        } else {
-//            throw new RuntimeException("There is no pizza with this id: " + id);
-//        }
-//    }
 
     @DeleteMapping("/pizzas/{id}")
     public String RemovePizza(@PathVariable Long id){
@@ -78,7 +68,7 @@ public class PizzaController {
             pizzaRepository.delete(pizza.get());
             return "Pizza with id "+id+" is deleted!";
         } else{
-            throw new RuntimeException("Pizza not found for the id "+id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"There is no pizza found with this id: " + id + "! Try again with right Id.");
         }
     }
 }
